@@ -97,8 +97,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @param registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/doc.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
     /**
@@ -108,13 +110,21 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         log.info("扩展消息转换器对象....");
-        // 1.创建消息转换器对象
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-
-        // 2.设置自定义的消息对象转换器
+        MappingJackson2HttpMessageConverter converter =
+                new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(new JacksonObjectMapper());
-
-        // 3.将自定义的消息对象转换器设置为优先级最高
         converters.add(0, converter);
     }
+    //    @Override
+//    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        log.info("扩展消息转换器对象....");
+//        // 1.创建消息转换器对象
+//        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+//
+//        // 2.设置自定义的消息对象转换器
+//        converter.setObjectMapper(new JacksonObjectMapper());
+//
+//        // 3.将自定义的消息对象转换器设置为优先级最高
+//        converters.add(0, converter);
+//    }
 }

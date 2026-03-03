@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
@@ -20,6 +21,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -67,22 +70,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addEmp(EmployeeDTO dto) {
-        log.info("EmployeeServiceImpl:线程id={}", Thread.currentThread().getId());
         Employee employee = new Employee();
-        // 属性拷贝
         BeanUtils.copyProperties(dto, employee);
-
-        // 1.补充缺失的属性值
-        // 补充密码字段，需要进行MD5加密
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
         employee.setStatus(StatusConstant.ENABLE);
 
         // 使用公共字段自动填充逻辑
-        // employee.setCreateTime(LocalDateTime.now());
-        // employee.setUpdateTime(LocalDateTime.now());
-        // // 从ThreadLocal中获取出登陆人id
-        // employee.setCreateUser(BaseContext.getCurrentId());
-        // employee.setUpdateUser(BaseContext.getCurrentId());
+         employee.setCreateTime(LocalDateTime.now());
+         employee.setUpdateTime(LocalDateTime.now());
+         // 从ThreadLocal中获取出登陆人id
+         employee.setCreateUser(BaseContext.getCurrentId());
+         employee.setUpdateUser(BaseContext.getCurrentId());
 
         // 2.调用mapper的新增方法，将员工对象存入employee表中
         employeeMapper.insert(employee);
@@ -95,15 +93,45 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public PageResult page(EmployeePageQueryDTO dto) {
-        // 1.设置分页参数
         PageHelper.startPage(dto.getPage(), dto.getPageSize());
-
-        // 2.调用mapper的查询方法,并强转返回类型为Page
         Page<Employee> page = employeeMapper.list(dto.getName());
-
-        // 3.封装PageResult对象并返回
         return new PageResult(page.getTotal(), page.getResult());
     }
+
+//    @Override
+//    public void addEmp(EmployeeDTO dto) {
+//        log.info("EmployeeServiceImpl:线程id={}", Thread.currentThread().getId());
+//        Employee employee = new Employee();
+//        // 属性拷贝
+//        BeanUtils.copyProperties(dto, employee);
+//
+//        // 1.补充缺失的属性值
+//        // 补充密码字段，需要进行MD5加密
+//        employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
+//        employee.setStatus(StatusConstant.ENABLE);
+//
+//        // 使用公共字段自动填充逻辑
+//        // employee.setCreateTime(LocalDateTime.now());
+//        // employee.setUpdateTime(LocalDateTime.now());
+//        // // 从ThreadLocal中获取出登陆人id
+//        // employee.setCreateUser(BaseContext.getCurrentId());
+//        // employee.setUpdateUser(BaseContext.getCurrentId());
+//
+//        // 2.调用mapper的新增方法，将员工对象存入employee表中
+//        employeeMapper.insert(employee);
+//    }
+
+
+//    public PageResult page(EmployeePageQueryDTO dto) {
+//        // 1.设置分页参数
+//        PageHelper.startPage(dto.getPage(), dto.getPageSize());
+//
+//        // 2.调用mapper的查询方法,并强转返回类型为Page
+//        Page<Employee> page = employeeMapper.list(dto.getName());
+//
+//        // 3.封装PageResult对象并返回
+//        return new PageResult(page.getTotal(), page.getResult());
+//    }
 
     /**
      * 启用禁用员工
@@ -115,8 +143,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = Employee.builder()
                 .id(id)
                 .status(status)
+                .updateTime(LocalDateTime.now())
+                .updateUser(BaseContext.getCurrentId())
                 .build();
         employeeMapper.update(employee);
+//        Employee employee = Employee.builder()
+//                .id(id)
+//                .status(status)
+//                .build();
+//        employeeMapper.update(employee);
     }
 
     @Override
@@ -127,14 +162,68 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void update(EmployeeDTO dto) {
         Employee employee = new Employee();
-        // 拷贝属性值
         BeanUtils.copyProperties(dto, employee);
-        // 补充更新时间和更新人
-        // 使用公共字段自动填充逻辑
-        // employee.setUpdateTime(LocalDateTime.now());
-        // employee.setUpdateUser(BaseContext.getCurrentId());
-
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
+
+//        Employee employee = new Employee();
+//        // 拷贝属性值
+//        BeanUtils.copyProperties(dto, employee);
+//        // 补充更新时间和更新人
+//        // 使用公共字段自动填充逻辑
+//        // employee.setUpdateTime(LocalDateTime.now());
+//        // employee.setUpdateUser(BaseContext.getCurrentId());
+//
+//        employeeMapper.update(employee);
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

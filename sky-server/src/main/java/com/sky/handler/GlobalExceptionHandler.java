@@ -27,17 +27,29 @@ public class GlobalExceptionHandler {
         return Result.error(ex.getMessage());
     }
 
+
     /**
      * 用于捕获SQL异常
      * @param ex
      * @return
      */
+//    @ExceptionHandler
+//    public Result doSQLException(SQLIntegrityConstraintViolationException ex) {
+//        log.error("异常信息：{}", ex.getMessage());
+//        String message = ex.getMessage();
+//        if (message.contains("Duplicate")) {
+//            return Result.error(message.split(" ")[2]+ MessageConstant.ALREADY_EXIST);
+//        }
+//        return Result.error(MessageConstant.UNKNOWN_ERROR);
+//    }
     @ExceptionHandler
     public Result doSQLException(SQLIntegrityConstraintViolationException ex) {
         log.error("异常信息：{}", ex.getMessage());
         String message = ex.getMessage();
-        if (message.contains("Duplicate")) {
-            return Result.error(message.split(" ")[2]+ MessageConstant.ALREADY_EXIST);
+        if(message.contains("Duplicate")){
+            String[] split = message.split(" ");
+            String msg = split[2];
+            return Result.error(msg + MessageConstant.ALREADY_EXIST);
         }
         return Result.error(MessageConstant.UNKNOWN_ERROR);
     }

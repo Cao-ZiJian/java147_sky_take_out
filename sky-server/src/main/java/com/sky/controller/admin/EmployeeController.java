@@ -81,15 +81,27 @@ public class EmployeeController {
      * @param dto
      * @return
      */
+//    @ApiOperation("新增员工")
+//    @PostMapping
+//    public Result addEmp(@RequestBody EmployeeDTO dto){
+//        log.info("EmployeeController:线程id={}", Thread.currentThread().getId());
+//        log.info("新增员工：{}", dto);
+//        employeeService.addEmp(dto);
+//        return Result.success();
+//    }
+
+    /**
+     * 新增员工
+     * @param dto
+     * @return
+     */
     @ApiOperation("新增员工")
     @PostMapping
-    public Result addEmp(@RequestBody EmployeeDTO dto){
-        log.info("EmployeeController:线程id={}", Thread.currentThread().getId());
+    public Result addEmp(@RequestBody EmployeeDTO dto) {
         log.info("新增员工：{}", dto);
         employeeService.addEmp(dto);
         return Result.success();
     }
-
     /**
      * 员工分页查询
      * @param dto
@@ -97,11 +109,16 @@ public class EmployeeController {
      */
     @ApiOperation("员工分页查询")
     @GetMapping("/page")
-    public Result<PageResult> page(EmployeePageQueryDTO dto){
+    public Result page(EmployeePageQueryDTO dto) {
         log.info("员工分页查询：{}", dto);
-        PageResult pageResult = employeeService.page(dto);
-        return Result.success(pageResult);
+        PageResult page = employeeService.page(dto);
+        return Result.success(page);
     }
+//    public Result<PageResult> page(EmployeePageQueryDTO dto){
+//        log.info("员工分页查询：{}", dto);
+//        PageResult pageResult = employeeService.page(dto);
+//        return Result.success(pageResult);
+//    }
 
     /**
      * 启用禁用员工
@@ -116,6 +133,11 @@ public class EmployeeController {
         employeeService.enableOrDisable(status, id);
         return Result.success();
     }
+//    public Result enableOrDisable(@PathVariable Integer status, Long id){
+//        log.info("启用禁用员工：status={}, id={}", status, id);
+//        employeeService.enableOrDisable(status, id);
+//        return Result.success();
+//    }
 
     /**
      * 回显员工
@@ -124,11 +146,18 @@ public class EmployeeController {
      */
     @ApiOperation("回显员工")
     @GetMapping("/{id}")
-    public Result<Employee> getById(@PathVariable Long id){
+    public Result getById(@PathVariable Long id) {
         log.info("回显员工：id={}", id);
         Employee employee = employeeService.getById(id);
         return Result.success(employee);
     }
+//    @ApiOperation("回显员工")
+//    @GetMapping("/{id}")
+//    public Result<Employee> getById(@PathVariable Long id){
+//        log.info("回显员工：id={}", id);
+//        Employee employee = employeeService.getById(id);
+//        return Result.success(employee);
+//    }
 
     /**
      * 编辑员工
@@ -137,9 +166,57 @@ public class EmployeeController {
      */
     @ApiOperation("编辑员工")
     @PutMapping
-    public Result update(@RequestBody EmployeeDTO dto){
+    public Result update(@RequestBody EmployeeDTO dto) {
         log.info("编辑员工：{}", dto);
         employeeService.update(dto);
         return Result.success();
     }
+//    @ApiOperation("编辑员工")
+//    @PutMapping
+//    public Result update(@RequestBody EmployeeDTO dto){
+//        log.info("编辑员工：{}", dto);
+//        employeeService.update(dto);
+//        return Result.success();
+//    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

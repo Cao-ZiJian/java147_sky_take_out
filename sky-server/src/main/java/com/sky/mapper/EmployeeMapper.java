@@ -23,6 +23,8 @@ public interface EmployeeMapper {
      * @param employee
      */
     @AutoFill(OperationType.INSERT)
+//    @Insert("insert into employee values (null, #{name},#{username},#{password},#{phone},#{sex},#{idNumber},#{status}," +
+//            "#{createTime},#{updateTime},#{createUser},#{updateUser})")
     @Insert("insert into employee values (null, #{name},#{username},#{password},#{phone},#{sex},#{idNumber},#{status}," +
             "#{createTime},#{updateTime},#{createUser},#{updateUser})")
     void insert(Employee employee);
