@@ -3,10 +3,10 @@
 <mapper namespace="com.sky.mapper.DishFlavorMapper">
     <!--批量插入口味-->
     <insert id="insertBatch">
-        insert into dish_flavor values
-        <foreach collection="dishFlavorList" item="flavor" separator=",">
-            (null, #{flavor.dishId}, #{flavor.name}, #{flavor.value})
-        </foreach>
+         insert into dish_flavor values
+             <foreach collection="dishFlavorList" item="flavor" separator=",">
+                 (null, #{flavor.dishId}, #{flavor.name}, #{flavor.value})
+             </foreach>
     </insert>
 
     <!--根据菜品id删除口味列表-->

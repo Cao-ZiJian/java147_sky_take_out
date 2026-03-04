@@ -3,9 +3,13 @@
 <mapper namespace="com.sky.mapper.SetmealDishMapper">
     <select id="countByDishId" resultType="java.lang.Integer">
         select count(*) from setmeal_dish where dish_id in
-         <foreach collection="dishIds" item="dishId" separator="," open="(" close=")">
-             #{dishId}
-         </foreach>
+        <foreach collection="dishIds" item="dishId" separator="," open="(" close=")">
+            #{dishId}
+        </foreach>
+<!--        select count(*) from setmeal_dish where dish_id in-->
+<!--         <foreach collection="dishIds" item="dishId" separator="," open="(" close=")">-->
+<!--             #{dishId}-->
+<!--         </foreach>-->
     </select>
 
     <!--批量插入套餐菜品关系数据-->

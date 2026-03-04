@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
+//@Slf4j
+//@Api(tags = "菜品相关接口")
+//@RequestMapping("/admin/dish")
+//@RestController
+@RestController
+@RequestMapping("/admin/dish")
 @Slf4j
 @Api(tags = "菜品相关接口")
-@RequestMapping("/admin/dish")
-@RestController
 public class DishController {
     @Autowired
     private DishService dishService;
@@ -34,14 +38,18 @@ public class DishController {
      */
     @ApiOperation("新增菜品")
     @PostMapping
-    public Result addDish(@RequestBody DishDTO dto){
+    public Result addDish(@RequestBody DishDTO dto) {
         log.info("新增菜品：{}", dto);
         dishService.addDish(dto);
-
-        // 缓存优化---清理缓存
-        redisTemplate.delete("dish_"+dto.getCategoryId());
-
         return Result.success();
+
+//        log.info("新增菜品：{}", dto);
+//        dishService.addDish(dto);
+//
+//        // 缓存优化---清理缓存
+//        redisTemplate.delete("dish_"+dto.getCategoryId());
+//
+//        return Result.success();
     }
 
     /**
@@ -51,11 +59,16 @@ public class DishController {
      */
     @ApiOperation("分页查询菜品列表")
     @GetMapping("/page")
-    public Result<PageResult> page(DishPageQueryDTO dto){
+    public Result<PageResult> page(DishPageQueryDTO dto) {
         log.info("分页查询菜品列表：{}", dto);
-        PageResult pageResult = dishService.page(dto);
-        return Result.success(pageResult);
+        PageResult page = dishService.page(dto);
+        return Result.success(page);
     }
+//    public Result<PageResult> page(DishPageQueryDTO dto){
+//        log.info("分页查询菜品列表：{}", dto);
+//        PageResult pageResult = dishService.page(dto);
+//        return Result.success(pageResult);
+//    }
 
     /**
      * 删除菜品
@@ -64,16 +77,24 @@ public class DishController {
      */
     @ApiOperation("删除菜品")
     @DeleteMapping
-    public Result delete(@RequestParam List<Long> ids){
+    public Result deleteDish(@RequestParam List<Long> ids) {
         log.info("删除菜品：{}", ids);
         dishService.delete(ids);
-
-        // 缓存优化---清理缓存--将菜品缓存全部删除
-        Set keys = redisTemplate.keys("dish_*");
-        redisTemplate.delete(keys);
-
         return Result.success();
+//        dishService.delete(ids);
+//        return Result.success();
     }
+//    @DeleteMapping
+//    public Result delete(@RequestParam List<Long> ids){
+//        log.info("删除菜品：{}", ids);
+//        dishService.delete(ids);
+//
+//        // 缓存优化---清理缓存--将菜品缓存全部删除
+//        Set keys = redisTemplate.keys("dish_*");
+//        redisTemplate.delete(keys);
+//
+//        return Result.success();
+//    }
 
     /**
      * 回显菜品
@@ -86,6 +107,8 @@ public class DishController {
         log.info("回显菜品：{}", id);
         DishVO dishVO = dishService.getById(id);
         return Result.success(dishVO);
+//        DishVO dishVO = dishService.getById(id);
+//        return Result.success(dishVO);
     }
 
     /**
@@ -95,15 +118,18 @@ public class DishController {
      */
     @ApiOperation("修改菜品")
     @PutMapping
-    public Result update(@RequestBody DishDTO dto){
+    public Result update(@RequestBody DishDTO dto) {
         log.info("修改菜品：{}", dto);
         dishService.update(dto);
-
-        // 缓存优化---清理缓存--将菜品缓存全部删除
-        Set keys = redisTemplate.keys("dish_*");
-        redisTemplate.delete(keys);
-
         return Result.success();
+//        log.info("修改菜品：{}", dto);
+//        dishService.update(dto);
+//
+//        // 缓存优化---清理缓存--将菜品缓存全部删除
+//        Set keys = redisTemplate.keys("dish_*");
+//        redisTemplate.delete(keys);
+//
+//        return Result.success();
     }
 
     /**

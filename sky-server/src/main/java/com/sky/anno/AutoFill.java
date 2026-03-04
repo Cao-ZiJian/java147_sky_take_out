@@ -10,9 +10,12 @@ import java.lang.annotation.Target;
 /**
  * 自定义公共字段自动填充注解
  */
-@Target(ElementType.METHOD)
+//@Target(ElementType.METHOD)
+//@Retention(RetentionPolicy.RUNTIME)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface AutoFill {
     // 用来标识新增还是修改
+    //OperationType value();
     OperationType value();
 }
